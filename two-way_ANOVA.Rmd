@@ -1,0 +1,54 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+```{r}
+df_R=read.csv("C:/Users/chunweil/two-way_ANOVA_R.csv")
+table(df_R$Manufacturer,df_R$WireClass)
+```
+```{r}
+# two-way ANOVA with interation effect
+# Data Cleaning 
+library(ggplot2)
+library(reshape)
+df_R=df_R[,c(2,3,4)]
+df_R_melt=melt(df_R)[c(1,2,4)]
+head(df_R_melt)
+```
+```{r}
+# two-way ANOVA-->we are not able to get interaction effect due to 0 value in table
+summary(aov(value~Manufacturer+WireClass+Manufacturer:WireClass,data=df_R_melt))
+```
+
+
+
+```{r}
+df=read.csv("C:/Users/chunweil/two-way_ANOVA.csv")
+table(df$Manufacturer,df$WireClass)
+attach(df)
+```
+```{r}
+# two-way ANOVA with interation effect
+# Data Cleaning 
+library(ggplot2)
+library(reshape)
+df=df[c(2,3,4)]
+df_melt2=melt(df)[c(1,2,4)]
+head(df_melt2)
+```
+```{r}
+# The interaction effect between "WireClass" and "Manufacturer" is not significant
+summary(aov(value~Manufacturer+WireClass+Manufacturer:WireClass,data=df_melt2))
+
+```
+
+```{r}
+interaction.plot(df_melt2$Manufacturer,df_melt2$WireClass,df_melt2$value)
+```
+
+```{r}
+pccpdf=read.csv("C:/Users/chunweil/Documents/pccp/Copy of wssc_0724.csv")
+table(pccpdf$Manufacturer,pccpdf$WireClass)
+```
+
+
